@@ -1,6 +1,6 @@
-const {Dog,Temperament}=require('../../db')  //traigo los modelos desde la BASEDEDATOS
-
 const {Op}=require('sequelize')
+
+const {Dog,Temperament}=require('../../db')  //traigo los modelos desde la BASEDEDATOS
 
 const createDog=async(name,image,temperament,life_span,weight_min,weight_max,height_min,height_max)=>{
     
