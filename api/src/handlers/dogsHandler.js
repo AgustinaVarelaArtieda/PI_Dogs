@@ -7,6 +7,7 @@ const getDogs = async (req,res) =>{
     const {name} = req.query;
 
     try {
+        //Si me ingresa un name por query busco por nombre, sino traigo todos los perros
         const dog=name? await getDogsByName(name) : await getAllDogs(); 
         
         res.status(200).json(dog);
@@ -20,6 +21,7 @@ const getDogsId = async (req,res) =>{
     const {id} = req.params;
 
     try {
+        //Busco el perro segun su id, si es numerico lo busco en la API, sino en la DB
         const data= isNaN(id)? await dogsIDByDB(id):await dogsIDByAPI(id); 
 
         res.status(200).json(data);

@@ -2,6 +2,7 @@ const getTemperaments=require('../controllers/Temperaments/getTemperaments');
 
 const getAllTemperaments=async(req,res)=>{
     try {
+        //Traigo todos los temperamentos
         const temps = await getTemperaments();
 
         return res.status(200).json(temps);
