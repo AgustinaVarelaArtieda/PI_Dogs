@@ -1,0 +1,105 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+.layout {
+    width: 100%;
+    height: 100%;
+  
+    display: grid;
+    grid:
+        "header header header" 5%
+        "leftSide body ." 90%
+        "footer footer footer" 5%
+        / 20% 80% 0;
+  
+    justify-content: space-around;
+    justify-items: center;
+    align-items: center;
+  }
+  
+  .header { 
+    grid-area: header;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+    .header h1{
+        flex-grow: 1;
+
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .nav{
+        flex-grow: 5;
+        margin-left: auto;
+        margin-right: 2%;
+    }
+
+  .leftSide { 
+    grid-area: leftSide; 
+
+    height: 96%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+  .search,
+  .filter,
+  .img { 
+    width: 100%;
+}
+
+    .search { 
+        order: 0;
+    }
+    .filter { 
+        order: 1;
+        flex-grow: 1;
+    }
+    .img { 
+        order: 2;
+        flex-grow: 0.5;
+        align-self: flex-end;
+    }
+
+  .body { 
+    grid-area: body; 
+
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+
+}
+    .spaceCards{
+        height: 100%;
+        width: 100%;
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        justify-content: space-around;
+    }
+
+    .spacePagination{
+        height: 96%;
+        width: 96%;
+    }
+
+  .footer { 
+    grid-area: footer; 
+}
