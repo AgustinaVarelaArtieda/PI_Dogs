@@ -2,15 +2,16 @@ import React from "react";
 import { useState, useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import {Link} from 'react-router-dom'
-
 import { getDogs } from '../../redux/actions';
 
-import Card from "../card/card";
 import LoadingPage from "../../views/loading/loading";
 import Pagination from "../pagination/pagination";
+import SearchBar from "../searchBar/searchBar";
+import NavBar from "../navBar/navBar";
+import Card from "../card/card";
 
 import style from './home.module.css'
+import Filters from "../filters/filters";
 
 export default function HomePage(){
     const dispatch = useDispatch();
@@ -25,12 +26,12 @@ export default function HomePage(){
     // eslint-disable-next-line
     const [dogsPerPage, setDogsPerPage]=useState(8)  //Cuantos dogs por pagina quiero
 
-    //Creacion de constantes para ubicar los juegos segun el indice
+    //Creacion de constantes para ubicar los perros segun el indice
     const indexOfLastDog=currentPage*dogsPerPage  
     const indexOfFirstDog=indexOfLastDog-dogsPerPage
 
     //Division de games por pagina
-    const currentDogs= allDogs.slice(indexOfFirstDog,indexOfLastDog) //Esta const contiene los personajes que van a tener la pagina actual
+    const currentDogs= allDogs.slice(indexOfFirstDog,indexOfLastDog) //Esta const contiene los perros que van a tener la pagina actual
     
     //Funcion para el renderizado del paginado
     function paginated(pageNumber){
@@ -63,9 +64,7 @@ export default function HomePage(){
 
                 {/*Aca va la NavBar*/}
                 <div className={style.nav}>
-                    <Link to='/about'>
-                        <button>About</button>
-                    </Link>
+                    <NavBar/>
                 </div>
             </div>
 
@@ -73,11 +72,11 @@ export default function HomePage(){
             <div className={style.leftSide}>
                 {/*Aca va la SearchBar*/}
                 <div className={style.search}>
-                    <h2>Search</h2>
+                    <SearchBar/>
                 </div> 
                 {/*Aca van los filtros y orden*/}
                 <div className={style.filter}>
-                    <h2>Filter</h2>
+                    <Filters />
                 </div>
                 {/*Aca va la imagen de la parte de abajo*/}
                 <div className={style.img}>
@@ -92,11 +91,11 @@ export default function HomePage(){
                         <LoadingPage />     /*Esto trae la LoadingPage*/
                     ) : (
                         currentDogs?.length===0 ? (
-                            <h2 className={style.noDogs}>No hay perros de esa raza</h2>
+                            <h2 className={style.noDogs}>No dogs with these characteristics were found.</h2>
                         ) : (
                             currentDogs.map(el => {
                                 return (
-                                    <Card key={el.id} name={el.name} image={el.image} temperament={el.temperament} weight_min={el.weight_min} weight_max={el.weight_max}/>
+                                    <Card key={el.id} id={el.id} name={el.name} image={el.image} temperament={el.temperament} weight_min={el.weight_min} weight_max={el.weight_max}/>
                                 );
                             })
                         )
