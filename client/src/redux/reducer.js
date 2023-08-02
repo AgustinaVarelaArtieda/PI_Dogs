@@ -48,8 +48,19 @@ function rootReducer(state=initialState, action){
         
         //Para ordenar por nombre
         case ORDER_BY_NAME:
-            let sortArr=[...state.dogs];
-            sortArr.sort((a,b)=>a.name.localeCompare(b.name));
+            let sortArr= [...state.dogs]; 
+            let newSort=action.payload;
+
+            sortArr.sort(function(a,b){
+                if (a.name > b.name){
+                    return newSort === 'asc' ? 1 : -1;
+                }
+                if (a.name < b.name){
+                    return newSort === 'asc' ? -1 : 1; 
+                }
+                return 0
+            })
+
             return{
                 ...state,
                 dogs:sortArr,
@@ -57,12 +68,39 @@ function rootReducer(state=initialState, action){
 
         //Para ordenar por peso
         case ORDER_BY_WEIGHT:
-            let sortedArr=[...state.dogs];
-            sortedArr.sort((a,b)=>a.weight-b.weight);
+            let weightOrder=[...state.dogs];
+            let sortWeight=action.payload
+
+            weightOrder.sort(function(a, b) {
+                const weightA = Number(a.weight_min) || 0;
+                const weightB = Number(b.weight_min) || 0;
+            
+                if (weightA !== weightB) {
+                  if (sortWeight === "desc") {
+                    return weightB - weightA;
+                  } else if (sortWeight === "asc") {
+                    return weightA - weightB;
+                  }
+                } else {
+                  const maxWeightA = Number(a.weight_max)|| 0;
+                  const maxWeightB = Number(b.weight_max)|| 0;
+            
+                  if (maxWeightA !== maxWeightB) {
+                    if (sortWeight === "desc") {
+                      return maxWeightB - maxWeightA;
+                    } else if (sortWeight === "asc") {
+                      return maxWeightA - maxWeightB;
+                    }
+                  }
+                }
+            
+                return 0;
+            });
+
             return{
                 ...state,
-                dogs:sortedArr,
-            };
+                dogs: weightOrder
+            }
 
         //Para filtrar por origen
         case FILTER_ORIGIN:
@@ -87,7 +125,15 @@ function rootReducer(state=initialState, action){
             if(action.payload==='All'){
                 tempFilters=[...state.allDogs]
             } else{
-                tempFilters=state.allDogs.filter((dog)=>dog.temperament.includes(action.payload))
+                tempFilters = state.allDogs.filter((dog) => {
+                    if(dog.temperament){
+                        //Dividimos la cadena de temperamentos y eliminamos los espacios en blanco
+                        const temperaments = dog.temperament.split(',').map((t) => t.trim());
+                        // verificamos si el temperamento del perro coincide exactamente con el valor del payload
+                        return temperaments.includes(action.payload);
+                    }
+                    return false
+                });
             }
             return{
                 ...state,
