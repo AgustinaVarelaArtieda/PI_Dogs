@@ -38,7 +38,7 @@ export default function HomePage(){
         setCurrentPage(pageNumber)
     }
 
-    //Traigo los videojuegos del estado cuando se monte el HOME
+    //Traigo los perros del estado cuando se monte el HOME
     useEffect(()=>{
         dispatch(getDogs());
     },[dispatch]);
@@ -47,13 +47,20 @@ export default function HomePage(){
     const [loading, setLoading] = useState(true);       //para controlar si se debe mostrar LoadingPage o las cartas
 
     useEffect(()=>{
-        const timer=setTimeout(()=>{        //temporizador para desactivar la loading luego de un segundo y medio
+        const timer=setTimeout(()=>{        //temporizador para desactivar la loading
             setLoading(false)
         },1700);
         return ()=>{
             clearTimeout(timer)
         }
-    },[])
+    },[]);
+
+    //Para volver a la pagina 1
+    function reset(e){
+        e.preventDefault();
+        setCurrentPage(1);
+    }
+
 
     return(
         <div className={style.layout}>
@@ -76,7 +83,7 @@ export default function HomePage(){
                 </div> 
                 {/*Aca van los filtros y orden*/}
                 <div className={style.filter}>
-                    <Filters />
+                    <Filters reset={(e)=>reset(e)}/>
                 </div>
                 {/*Aca va la imagen de la parte de abajo*/}
                 <div className={style.img}>
@@ -86,6 +93,11 @@ export default function HomePage(){
 
             {/*Esto va a tener las cards y la paginación*/}
             <div className={style.body}>
+                <div className={style.spacePagination}>
+                    {/*Esto realiza el paginado*/}
+                    <Pagination currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginated={paginated}/>
+                </div>
+                
                 <div className={style.spaceCards}>
                     {loading ? (
                         <LoadingPage />     /*Esto trae la LoadingPage*/
