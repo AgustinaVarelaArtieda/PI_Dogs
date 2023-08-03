@@ -5,7 +5,7 @@ import { getDogs, getTemps, filterByTemp, filterOrigin, orderByName, orderByWeig
 
 import style from './filters.module.css'
 
-export default function Filters (){
+export default function Filters ({reset}){
     const dispatch = useDispatch();
 
     //const allDogs = useSelector((state)=>state.videogames);       //Trae todo lo que esta en el estado de videogames(ESTADO GLOBAL)
@@ -14,14 +14,6 @@ export default function Filters (){
     //FILTROS
     const filterOrig=useRef();
     const filterTemp=useRef();
-
-    //Filtro por origen
-    function handleFilterOrigin(e){
-        e.preventDefault()
-
-        dispatch(filterOrigin(e.target.value))
-        
-    }
 
     //Filtro por temperamentos
         //para renderizar los temperamentos
@@ -33,6 +25,17 @@ export default function Filters (){
         e.preventDefault();
         
         dispatch(filterByTemp(e.target.value));
+
+        reset(e);
+    }
+
+    //Filtro por origen
+    function handleFilterOrigin(e){
+        e.preventDefault()
+
+        dispatch(filterOrigin(e.target.value))
+        
+        reset(e);
     }
 
     //ORDENAMIENTO
@@ -44,6 +47,8 @@ export default function Filters (){
         e.preventDefault();
         dispatch(orderByName(e.target.value));
 
+        reset(e);
+
         orderWeight.current.value='default';    //setea el orden por peso
     }
 
@@ -51,6 +56,8 @@ export default function Filters (){
     function handleOrderByWeight(e){
         e.preventDefault();
         dispatch(orderByWeight(e.target.value));
+
+        reset(e);
 
         orderName.current.value='default';    //setea el orden por nombre
     }
