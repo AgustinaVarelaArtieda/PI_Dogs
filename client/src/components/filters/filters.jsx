@@ -68,6 +68,8 @@ export default function Filters ({reset}){
         //Recargar/traer todos los perros
         dispatch(getDogs());
 
+        reset(e);
+
         //Establecer los valores de los filtros y ordenamientos a los predeterminados
         filterOrig.current.value='default';
         filterTemp.current.value='default';
@@ -104,7 +106,7 @@ export default function Filters ({reset}){
             <select onChange={e=>handleFilterTemp(e)} ref={filterTemp} defaultValue='All'>
                 <option value='All'>All temperaments</option>
                 {allTemperaments?.map((temp)=>(
-                        <option value={temp}>{temp}</option>
+                        <option value={temp} key={temp}>{temp}</option>
                 ))}
             </select>
             {/*Filtro por origen*/}
