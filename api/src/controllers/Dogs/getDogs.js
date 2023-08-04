@@ -32,7 +32,7 @@ const getDogsFromDB=async()=>{
         include:{
             model:Temperament,
             attributes:['name'],
-            trough:{attributes:[]}
+            through:{attributes:[]}
         }
     });
 

@@ -14,15 +14,15 @@ const createDog=async(name,image,temperament,life_span,weight_min,weight_max,hei
     if(dog) throw Error(`El perro ${name} ya fue creado, su id es ${dog.id}`);
 
     //Creo un nuevo perro
-    const newDog=await Dog.create({
+    let newDog=await Dog.create({
         name,
         image,
-        temperament,
         life_span,
         weight_min,
         weight_max,
         height_min,
         height_max,
+        temperament,
     });
 
     //Relacion tablas de DB Dog y Temperament

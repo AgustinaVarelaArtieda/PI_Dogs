@@ -18,11 +18,11 @@ const getTemperaments=async()=>{
         const dogsAPI=await axios.get(url);
         const temps=await dogsAPI.data.map(el=>{
             return {
-                temperaments:el.temperament
+                temperament:el.temperament
             }});
 
         //Extraigo los nombres de los temperamentos de todos los perros
-        const arrayTemps=temps.map(el=>el.temperaments).join(', ').split(', ');
+        const arrayTemps=temps.map(el=>el.temperament).join(', ').split(', ');
         
         //Creo un array para guardan los temperamentos sin repetir
         let temperamentos = []
