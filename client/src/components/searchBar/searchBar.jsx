@@ -10,7 +10,7 @@ export default function SearchBar(){
     const dispatch=useDispatch()
 
     //creo un ESTADO LOCAL
-    const [name,setName]=useState()
+    let [name,setName]=useState()
 
     //En esta funcion guardo en mi estado local lo que se agregue en mi input
     function handleInputChange(e){
@@ -29,7 +29,7 @@ export default function SearchBar(){
 
     return(
         <div className={style.group}>
-            <input type="text" placeholder='Buscar...' onChange={(e)=>handleInputChange(e)}></input>
+            <input type="text" placeholder='Search...' value={name} onChange={(e)=>handleInputChange(e)}></input>
             <button className={style.btnS} type='submit' onClick={(e)=>handleSubmit(e)}>🔍︎</button>
         </div>
     )

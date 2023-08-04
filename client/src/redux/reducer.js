@@ -52,10 +52,10 @@ function rootReducer(state=initialState, action){
             let newSort=action.payload;
 
             sortArr.sort(function(a,b){
-                if (a.name > b.name){
+                if (a.name.toLowerCase() > b.name.toLowerCase()){
                     return newSort === 'asc' ? 1 : -1;
                 }
-                if (a.name < b.name){
+                if (a.name.toLowerCase() < b.name.toLowerCase()){
                     return newSort === 'asc' ? -1 : 1; 
                 }
                 return 0
@@ -74,7 +74,8 @@ function rootReducer(state=initialState, action){
             weightOrder.sort(function(a, b) {
                 const weightA = Number(a.weight_min) || 0;
                 const weightB = Number(b.weight_min) || 0;
-            
+                
+                //Primero ordenamos por peso minimo, si los pesos min no son iguales los voy ordenando
                 if (weightA !== weightB) {
                   if (sortWeight === "desc") {
                     return weightB - weightA;
@@ -82,6 +83,7 @@ function rootReducer(state=initialState, action){
                     return weightA - weightB;
                   }
                 } else {
+                //Si los pesos minimos son iguales recurro a ordenarlos por el peso maximo
                   const maxWeightA = Number(a.weight_max)|| 0;
                   const maxWeightB = Number(b.weight_max)|| 0;
             
@@ -109,8 +111,10 @@ function rootReducer(state=initialState, action){
             if(action.payload==='All'){
                 originFilters=[...state.allDogs]
             }else if(action.payload==='DB'){
+                //Los dogs en la DB tienen un id de tipo UUID, por lo que no son numericos
                 originFilters=state.allDogs.filter((dog)=>isNaN(dog.id))
             }else if(action.payload==='API'){
+                //Los dogs de la API tienen un id numericos
                 originFilters=state.allDogs.filter((dog)=>!isNaN(dog.id))
             };
             return{
@@ -126,12 +130,19 @@ function rootReducer(state=initialState, action){
                 tempFilters=[...state.allDogs]
             } else{
                 tempFilters = state.allDogs.filter((dog) => {
+                    //Para los perros de la API
                     if(dog.temperament){
                         //Dividimos la cadena de temperamentos y eliminamos los espacios en blanco
                         const temperaments = dog.temperament.split(',').map((t) => t.trim());
                         // verificamos si el temperamento del perro coincide exactamente con el valor del payload
                         return temperaments.includes(action.payload);
-                    }
+                    };
+
+                    //Para los perros de la base de datos
+                    if(dog.temperaments){
+                        //Usamos el método some() para verificar si al menos uno de los objetos en dog.temperaments tiene un nombre que coincide con action.payload.
+                        return dog.temperaments.some((temp) => temp.name === action.payload);
+                    };
                     return false
                 });
             }

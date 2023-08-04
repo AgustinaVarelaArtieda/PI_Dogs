@@ -24,7 +24,7 @@ export function getDogDetails(id){
             });
         } catch(error){
             console.log(error.message)
-            alert('No tenemos detalles de este perro!');
+            alert('We do not have details of that dog!');
         };
     };
 };
@@ -39,7 +39,7 @@ export function searchDogName(name){
                 payload:info.data
             });
         } catch(error){
-           alert('El perro que buscas no existe!');
+           alert("We don't have the dog you are looking for!");
         };
     };
 };
