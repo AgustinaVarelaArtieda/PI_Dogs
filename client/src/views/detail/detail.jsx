@@ -1,10 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 
 import { getDogDetails } from '../../redux/actions'
-
-const imgDefault='https://thumbs.gfycat.com/DependableElementaryAquaticleech-size_restricted.gif'
+import NavBar from '../../components/navBar/navBar'
+import LoadingPage from '../loading/loading'
 
 export default function DetailPage(){
     
@@ -19,25 +19,47 @@ export default function DetailPage(){
         dispatch(getDogDetails(id))
     },[id, dispatch]);
 
+    //LOADING
+    const [loading, setLoading] = useState(true);     //para controlar la LoadingPage
+
+    useEffect(()=>{
+        const timer=setTimeout(()=>{        //temporizador para desactivar la loading
+            setLoading(false)
+        },1000);
+        return ()=>{
+            clearTimeout(timer)
+        }
+    },[]);
+
+    //Para renderizar los temperamentos
+    let temps=''
+    
+    if(detail.temperament){ //Si la info viene de la API
+        temps= detail.temperament
+    }
+    if(detail.temperaments){ //Si la info viene de la DB
+        temps=detail.temperaments.map(el=>el.name).join(', ')                                      
+    }
 
     return(
         <div>
+            <NavBar/>
+
             <h1>Detail</h1>
 
             {
-                    detail ?
-                    (<div>
+                    loading ? (
+                    <LoadingPage/>
+                    ) : (
+                    <div>
                         <h1>{detail.name}</h1>
-                        <img src={detail.image ? detail.image : imgDefault} alt={detail.name} />
-                        <p>Life span:{detail.life_span}</p>
-                        <p>Weight:{detail.weight_min} - {detail.weight_max} kg</p>
-                        <p>Height:{detail.height_min} - {detail.height_max} cm</p>
-                        <p>Temperaments: {!detail.createInDb? detail.temperaments + " " : detail.temperament.map((el)=> el.name + " ")}</p>
+                        <h5>{detail.id}</h5>
+                        <img src={detail.image} alt={detail.name} />
+                        <p>Life span: {detail.life_span}</p>
+                        <p>Weight: {detail.weight_min} - {detail.weight_max} kg</p>
+                        <p>Height: {detail.height_min} - {detail.height_max} cm</p>
+                        <p>Temperaments: {temps}</p>
                         
-                    </div>)
-                    :
-                    (<div>
-                        <h1>loading...</h1>
                     </div>)
                 }
                 <Link to= "/home">
