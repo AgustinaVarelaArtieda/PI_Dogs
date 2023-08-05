@@ -22,7 +22,7 @@ export default function FormPage(){
     //Creo un estado Local para los inputs del form
     const [newDog, setNewDog] = useState({
         name: '',
-        image:imgDefault,
+        image:imgDefault,   //En este punto agrego la imagen default
         life_span:'',
         weight_min: '',
         weight_max: '',
@@ -46,13 +46,15 @@ export default function FormPage(){
             ...newDog,
             [e.target.name]: e.target.value
         });
+        console.log(newDog)
 
-        console.log(errors)
         //Para verificar las validaciones
         setErrors(validate({
             ...newDog,
             [e.target.name]: e.target.value
         }));
+        console.log(errors)
+
     };
 
     //Para el select de los temperamentos
@@ -60,7 +62,7 @@ export default function FormPage(){
         e.preventDefault();
         const selectedTemperament=e.target.value;
 
-        if (newDog.temperament.includes(selectedTemperament)) {
+        if (newDog.temperament.includes(selectedTemperament)) {     //Para evitar que se agregue dos veces el mismo temperamento
             setNewDog({
               ...newDog,
               temperament: newDog.temperament.filter(temp => temp !== selectedTemperament)
@@ -122,56 +124,56 @@ export default function FormPage(){
             <form className={styles.form} onSubmit={(e)=>handleSubmit(e)}>
                 <div>
                     <label>Name</label>
-                    <input type="text" value={newDog.name} name='name' placeholder='Enter name...' onChange={(e)=>handleChange(e)}></input>
+                    <input type="text" value={newDog.name} name='name' placeholder="Dog's name..." autoComplete='off' onChange={(e)=>handleChange(e)}></input>
                     {errors.name && (
                         <span className="error">{errors.name}</span>
                     )}
                 </div>
                 <div>
                     <label>Image</label>
-                    <input type="text" value={newDog.image===imgDefault?'':newDog.image} name='image' placeholder='Enter url image...' onChange={(e)=>handleChange(e)}></input>
+                    <input type="text" value={newDog.image===imgDefault?'':newDog.image} name='image' autoComplete='off' placeholder='Enter url of the image...' onChange={(e)=>handleChange(e)}></input>
                     {errors.image && (
                         <span className="error">{errors.image}</span>
                     )}
                 </div>
                 <div>
                     <label>Life Span</label>
-                    <input type="text" value={newDog.life_span} name='life_span' placeholder='X - X years' onChange={(e)=>handleChange(e)}></input>
+                    <input type="text" value={newDog.life_span} name='life_span' autoComplete='off' placeholder="Dog's lifespan in years..." onChange={(e)=>handleChange(e)}></input>
                     {errors.life_span && (
                         <span className="error">{errors.life_span}</span>
                     )}  
                 </div>
                 <div>
                     <label>Weight Min</label>
-                    <input type="number" value={newDog.weight_min} name='weight_min' placeholder=' - ' onChange={(e)=>handleChange(e)}></input>
+                    <input type="number" value={newDog.weight_min} name='weight_min' autoComplete='off' placeholder="Dog's weight min in cm..." onChange={(e)=>handleChange(e)}></input>
                     {errors.weight_min && (
                         <span className="error">{errors.weight_min}</span>
                     )}  
                 </div>
                 <div>
                     <label>Weight Max</label>
-                    <input type="number" value={newDog.weight_max} name='weight_max' placeholder=' - ' onChange={(e)=>handleChange(e)}></input>
+                    <input type="number" value={newDog.weight_max} name='weight_max' autoComplete='off' placeholder="Dog's weight max in cm..." onChange={(e)=>handleChange(e)}></input>
                     {errors.weight_max && (
                         <span className="error">{errors.weight_max}</span>
                     )}  
                 </div>
                 <div>
                     <label>Height Min</label>
-                    <input type="number" value={newDog.height_min} name='height_min' placeholder=' - ' onChange={(e)=>handleChange(e)}></input>
+                    <input type="number" value={newDog.height_min} name='height_min' autoComplete='off' placeholder="Dog's height min in cm..." onChange={(e)=>handleChange(e)}></input>
                     {errors.height_min && (
                         <span className="error">{errors.height_min}</span>
                     )}  
                 </div>
                 <div>
                     <label>Height Max</label>
-                    <input type="number" value={newDog.height_max} name='height_max' placeholder=' - ' onChange={(e)=>handleChange(e)}></input>
+                    <input type="number" value={newDog.height_max} name='height_max' autoComplete='off' placeholder="Dog's height max in cm..." onChange={(e)=>handleChange(e)}></input>
                     {errors.height_max && (
                         <span className="error">{errors.height_max}</span>
                     )}
                 </div>
                 <div>
                     <label>Temperaments</label>
-                    <select onChange={(e) => handleTemperament(e)} >
+                    <select onChange={(e) => handleTemperament(e)} defaultValue={""}>
                         <option value="" disabled>Select temperaments</option>
                             {allTemperaments.map((temperament) => (
                                 <option key={temperament} value={temperament}>
