@@ -107,7 +107,7 @@ export default function HomePage(){
                         ) : (
                             currentDogs.map(el => {
                                 return (
-                                    <Card key={el.id} id={el.id} name={el.name} image={el.image} temperament={el.temperament} weight_min={el.weight_min} weight_max={el.weight_max}/>
+                                    <Card key={el.id} id={el.id} name={el.name} image={el.image} temperament={el.temperament?el.temperament:el.temperaments} weight_min={el.weight_min} weight_max={el.weight_max}/>
                                 );
                             })
                         )
