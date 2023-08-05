@@ -10,7 +10,7 @@ export default function SearchBar(){
     const dispatch=useDispatch()
 
     //creo un ESTADO LOCAL
-    let [name,setName]=useState()
+    let [name,setName]=useState('')
 
     //En esta funcion guardo en mi estado local lo que se agregue en mi input
     function handleInputChange(e){
