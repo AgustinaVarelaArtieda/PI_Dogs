@@ -1,0 +1,32 @@
+.navBar{
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.link{
+    text-decoration: none;
+    color: black;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 10px;
+    transition: all .4s;
+}
+
+.link:hover{
+    color: rgb(139, 68, 13);
+}
+
+@media (max-width: 500px){
+    .link{
+        font-size: 0.8rem;
+        padding: 0.5rem;
+        margin: 0.2rem;
+    }
+}
