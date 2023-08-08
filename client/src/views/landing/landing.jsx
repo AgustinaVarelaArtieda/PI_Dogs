@@ -1,14 +1,20 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
+
+import style from './landing.module.css'
 
 export default function LandingPage(){
     return(
-        <div>
-            <h1>Welcome to the Dogs Page</h1>
+      <div className={style.layout}>
 
-            <Link to='/home'>
-                <button>HOME</button>
-            </Link>
-        </div>
+          <div className={style.land}>
+              <h1>Welcome to the Dogs Page!</h1>
+              <NavLink to='/home' style={{textDecoration:'none'}}>
+                  <button></button>
+              </NavLink>
+              
+          </div>
+        
+      </div>
     )
 }
