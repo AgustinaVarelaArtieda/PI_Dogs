@@ -1,0 +1,109 @@
+.filters{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.filters > * {
+    margin: 8px;
+    cursor: default;
+
+    max-width: 10rem;
+}
+
+.filters > *:first-child {
+    margin-top: 1rem;
+}
+
+.filters h5{
+    margin: 0.5rem;
+}
+
+.filters select{
+    width: 100%;
+    padding: 2px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-radius: 1rem;
+    border-color:rgb(181, 100, 2);
+    cursor: pointer;
+}
+
+.filters option{
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.btnFilter{
+    width: 100%;
+    padding: 5px;
+    border-radius: 1rem;
+    border-color:rgb(181, 100, 2);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    background-color: rgb(254, 244, 224);
+}
+
+.btnFilter:hover{
+    box-shadow: 0px 0px 10px 1px rgba(244, 131, 18, 0.623);
+}
+
+@media (max-width: 500px) {
+    .filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        
+        justify-items: center;
+        text-align: center;
+      }
+
+      .filters h2{
+        margin-top: 0;
+        font-size: 1.2rem;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .filters option{
+        text-align: center;
+        max-width:50px;
+        
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+      .filters select{
+        width: 100%;
+        padding: 2px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        border-radius: 1rem;
+        border-color:rgb(181, 100, 2);
+        cursor: pointer;
+    }
+        .filters h5{
+            margin: 0.5rem;
+            font-size: 1rem;
+            text-align: center;
+            justify-content: center;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    
+      .filters > * {
+        margin: 0;
+      }
+  }
