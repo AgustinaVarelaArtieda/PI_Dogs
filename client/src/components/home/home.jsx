@@ -75,6 +75,8 @@ export default function HomePage(){
                 </div>
             </div>
 
+        <div className={style.main}>
+
             {/*Esto va a tener la busqueda, filtrado y ordenamiento*/}
             <div className={style.leftSide}>
                 {/*Aca va la SearchBar*/}
@@ -84,10 +86,6 @@ export default function HomePage(){
                 {/*Aca van los filtros y orden*/}
                 <div className={style.filter}>
                     <Filters reset={(e)=>reset(e)}/>
-                </div>
-                {/*Aca va la imagen de la parte de abajo*/}
-                <div className={style.img}>
-                    <h2>Imagen</h2>
                 </div>
             </div>
 
@@ -118,13 +116,8 @@ export default function HomePage(){
                     {/*Esto realiza el paginado*/}
                     <Pagination currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginated={paginated}/>
                 </div>
-            </div>
-
-            {/*Esto va a ser el pie de pagina*/}
-            <div className={style.footer}>
-                <h5>Created by Agustina Varela</h5>
-            </div>
-            
+            </div>        
+        </div>
         </div>
     )
 }
