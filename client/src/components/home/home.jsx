@@ -91,31 +91,27 @@ export default function HomePage(){
 
             {/*Esto va a tener las cards y la paginación*/}
             <div className={style.body}>
-                <div className={style.spacePagination}>
-                    {/*Esto realiza el paginado*/}
-                    <Pagination currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginated={paginated}/>
-                </div>
-                
-                <div className={style.spaceCards}>
-                    {loading ? (
-                        <LoadingPage />     /*Esto trae la LoadingPage*/
-                    ) : (
-                        currentDogs?.length===0 ? (
-                            <h2 className={style.noDogs}>No dogs with these characteristics were found.</h2>
-                        ) : (
-                            currentDogs.map(el => {
-                                return (
-                                    <Card key={el.id} id={el.id} name={el.name} image={el.image} temperament={el.temperament?el.temperament:el.temperaments} weight_min={el.weight_min} weight_max={el.weight_max}/>
-                                );
-                            })
-                        )
-                    )}
-              
-                </div>
-                <div className={style.spacePagination}>
-                    {/*Esto realiza el paginado*/}
-                    <Pagination currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginated={paginated}/>
-                </div>
+                {loading?(
+                    <LoadingPage />     /*Esto trae la LoadingPage*/
+                ):(
+                <><div className={style.spacePagination}>
+                                {/*Esto realiza el paginado*/}
+                                <Pagination currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginated={paginated} />
+                            </div><div className={style.spaceCards}>
+                                    {currentDogs?.length === 0 ? (
+                                        <h2 className={style.noDogs}>No dogs with these characteristics were found.</h2>
+                                    ) : (
+                                        currentDogs.map(el => {
+                                            return (
+                                                <Card key={el.id} id={el.id} name={el.name} image={el.image} temperament={el.temperament ? el.temperament : el.temperaments} weight_min={el.weight_min} weight_max={el.weight_max} />
+                                            );
+                                        }
+                                        ))}
+                                </div><div className={style.spacePagination}>
+                                    {/*Esto realiza el paginado*/}
+                                    <Pagination currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={allDogs.length} paginated={paginated} />
+                                </div></>
+                )}
             </div>        
         </div>
         </div>

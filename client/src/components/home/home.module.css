@@ -1,8 +1,7 @@
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-  }
+@font-face{
+    font-family: 'doguitos';
+    src:url('../../../public/PuppyBellies.ttf')
+}
 
 .layout {
     display: flex;
@@ -11,16 +10,24 @@ html, body {
     align-items: center;
     min-height: 100vh;
     
+    background-color: rgba(100, 100, 99, 0.385);
+    background-image: url('../../images/bone.svg');
   }
   
   .header { 
     width: 100%;
     height: 100%;
 
+    background-color: rgb(107, 105, 103);
+
     margin-top: 0;
+    margin-bottom: 0;
+
     max-height: 3.5rem;
     display: flex;
     flex-direction:row;
+
+    color:aliceblue;
 
     justify-content: center;
     align-items: center;
@@ -29,7 +36,12 @@ html, body {
         flex-grow: 1;
 
         text-align: center;
-        font-size: 2rem;
+        
+        font-size: 2.5rem;
+        font-family: doguitos;
+        font-weight: 1;
+
+        cursor: default;
     }
 
     .nav{
@@ -43,17 +55,18 @@ html, body {
         height: 100%;
         display: flex;
         flex-direction:row;
+        margin:0;
     }
 
   .leftSide { 
     width: 2fr;
     display: flex;
     flex-direction: column;
-    margin: 0.5rem auto;
+    margin: 0;
     position: relative;
     opacity: 90%;
 
-    background-color: antiquewhite;
+    background-color: rgb(107, 105, 103);
 }
 
   .search,
