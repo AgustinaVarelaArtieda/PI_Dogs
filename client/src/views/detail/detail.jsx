@@ -6,6 +6,8 @@ import { getDogDetails } from '../../redux/actions'
 import NavBar from '../../components/navBar/navBar'
 import LoadingPage from '../loading/loading'
 
+import style from './detail.module.css'
+
 export default function DetailPage(){
     
     const dispatch = useDispatch();
@@ -19,46 +21,84 @@ export default function DetailPage(){
         dispatch(getDogDetails(id))
     },[id, dispatch]);
 
+    //Para renderizar los temperamentos
+    let temps='';
+    
+    if(detail.temperament){ //Si la info viene de la API
+        temps= detail.temperament
+    };
+    if(detail.temperaments){ //Si la info viene de la DB
+        temps=detail.temperaments.map(el=>el.name).join(', ')                                      
+    };
+
+    //Para agregar la palabra years a los life_span
+    let lifespan='';
+    if(detail.life_span){
+
+        if(!detail.life_span.includes('years')){
+            lifespan=detail.life_span+' years';
+        }else lifespan=detail.life_span;
+    }
+
+
     //LOADING
     const [loading, setLoading] = useState(true);     //para controlar la LoadingPage
 
     useEffect(()=>{
         const timer=setTimeout(()=>{        //temporizador para desactivar la loading
             setLoading(false)
-        },1000);
+        },1200);
         return ()=>{
             clearTimeout(timer)
         }
     },[]);
-
-    //Para renderizar los temperamentos
-    let temps=''
     
-    if(detail.temperament){ //Si la info viene de la API
-        temps= detail.temperament
-    }
-    if(detail.temperaments){ //Si la info viene de la DB
-        temps=detail.temperaments.map(el=>el.name).join(', ')                                      
-    }
-
     return(
-        <div>
+        <div className={style.layout}>
+            <div className={style.contNav}>
             <NavBar/>
-
-            <h1>Detail</h1>
+            </div>
 
             {
                     loading ? (
                     <LoadingPage/>
                     ) : (
-                    <div>
-                        <h1>{detail.name}</h1>
-                        <h5>{detail.id}</h5>
+                    <div className={style.details}>
+                            <h1>* {detail.name} *</h1>
+                            <h5>ID: {detail.id}</h5>
+                        <div className={style.info}>
                         <img src={detail.image} alt={detail.name} />
-                        <p>Life span: {detail.life_span}</p>
-                        <p>Weight: {detail.weight_min} - {detail.weight_max} kg</p>
-                        <p>Height: {detail.height_min} - {detail.height_max} cm</p>
-                        <p>Temperaments: {temps}</p>
+                            <div className={style.med}>
+                            <h4>Life span:</h4>
+                            <p>{lifespan} </p>
+                            <h4>Weight:</h4>
+                            {isNaN(detail.weight_min)&&isNaN(detail.weight_max) ? (
+                              <p>no data</p> 
+                            ) : (
+                                isNaN(detail.weight_min) ? (
+                                  <p>no data - {detail.weight_max} kg</p>
+                            ) : (
+                                  isNaN(detail.weight_max) ? (
+                                    <p>{detail.weight_min} kg - no data</p>
+                                ) : (
+                                  <p>{detail.weight_min} kg - {detail.weight_max} kg</p>
+                            )))}
+                            <h4>Height:</h4>
+                            {isNaN(detail.height_min)&&isNaN(detail.height_max) ? (
+                                <p>no data</p> 
+                            ) : (
+                                isNaN(detail.height_min) ? (
+                                    <p> no data - {detail.height_max} cm</p>
+                                ) : (
+                                isNaN(detail.height_max) ? (
+                                     <p>{detail.height_min} cm - no data</p>
+                                ) : (
+                                    <p>{detail.height_min} cm - {detail.height_max} cm</p>
+                            )))}
+                            <h4>Temperaments:</h4>
+                            <p>{temps?temps:'No data about temperaments'}</p>
+                            </div>
+                        </div>
                         
                     </div>)
                 }
