@@ -23,8 +23,18 @@
     margin-top: 1rem;
 }
 
+.filters h2{
+    font-size: 1.7rem;
+    font-family: doguitos;
+    font-weight: 600;
+}
+
 .filters h5{
-    margin: 0.5rem;
+    margin: 0.2rem;
+
+    font-size: 1rem;
+    font-family: doguitos;
+    font-weight: 600;
 }
 
 .filters select{
@@ -54,6 +64,9 @@
     cursor: pointer;
     transition-duration: 0.3s;
     background-color: rgb(254, 244, 224);
+
+    font-family: doguitos;
+    font-weight: 600;
 }
 
 .btnFilter:hover{
