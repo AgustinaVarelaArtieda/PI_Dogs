@@ -30,11 +30,14 @@
     box-shadow: 0 0 10px 2px #ff9100a7;
 }
 
-
 .btn {
     width: 2rem;
     height: 2rem;
+    
     font-size: 1.1em;
+    font-family: doguitos;
+    font-weight: bold;
+
     cursor: pointer;
     background-color: #fffefe;
     color: #000000;
