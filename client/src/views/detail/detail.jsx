@@ -56,7 +56,7 @@ export default function DetailPage(){
     return(
         <div className={style.layout}>
             <div className={style.contNav}>
-            <NavBar/>
+                <NavBar/>
             </div>
 
             {
