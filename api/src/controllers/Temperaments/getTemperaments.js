@@ -1,8 +1,10 @@
-const axios=require('axios')
+const axios=require('axios');
 
-const {Temperament}=require('../../db')
+const {Temperament}=require('../../db');
 
-const url='https://api.thedogapi.com/v1/breeds'
+const {APIKEY} = process.env;
+
+const url='https://api.thedogapi.com/v1/breeds?api_key='+APIKEY;
 
 const getTemperaments=async()=>{
     
