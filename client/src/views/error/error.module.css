@@ -1,0 +1,64 @@
+.layout{
+    width: 100%;
+    height: 100%;
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-color: rgba(100, 100, 99, 0.385);
+    background-image: url('../../images/bone.svg');
+}
+
+.contend{
+    margin-top: 2rem;
+    width: 90%;
+    max-width: 40rem;
+    height: 30rem;
+
+    background-color: aliceblue;
+    border-radius: 2rem;
+    border-color: darkgoldenrod;
+
+    box-shadow: 0 0 20px 2px darkgoldenrod;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    font-family: doguitos;
+    background-image: url('../../../public/404.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.contend h1{
+    font-size: 3rem;
+}
+.contend h2{
+    margin-bottom: 1.5rem;
+}
+
+.layout button{
+    width: 8rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    padding: 5px;
+
+    font-family: doguitos;
+    font-weight: bolder;
+    text-transform:uppercase;
+
+    border-radius: 1rem;
+    border-color:rgb(181, 100, 2);
+    cursor: pointer;
+    transition-duration: 0.3s;
+    background-color: rgb(254, 244, 224);
+}
+
+.layout button:hover{
+    border-color: rgb(246, 147, 41);
+    box-shadow: 0 0 20px 2px rgb(246, 147, 41);
+}
