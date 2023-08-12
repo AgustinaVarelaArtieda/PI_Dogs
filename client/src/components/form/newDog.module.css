@@ -112,6 +112,7 @@
 
 .minmax input{
     width: 80%;
+    text-align: center;
 }
 
 /*Select y option*/
@@ -165,4 +166,10 @@
     cursor: pointer;
     transition-duration: 0.3s;
     background-color: rgb(254, 244, 224);
+}
+
+@media(max-width:450px){
+    .minmax input{
+        width: 50%;
+    }
 }

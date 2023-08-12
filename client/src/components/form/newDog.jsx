@@ -32,7 +32,15 @@ export default function FormPage(){
     });
 
     //Creo un estado Local para los errors
-    const [errors, setErrors] = useState({});
+    const [errors, setErrors] = useState({
+        name:'dogs name is required',
+        life_span:'',
+        weight_min:'',
+        weight_max:'',
+        height_min:'',
+        height_max:'',
+        temperament:''
+    });
 
     //Para renderizar los temperamentos
     useEffect(()=>{
@@ -46,15 +54,12 @@ export default function FormPage(){
             ...newDog,
             [e.target.name]: e.target.value
         });
-        console.log(newDog)
 
         //Para verificar las validaciones
         setErrors(validate({
             ...newDog,
             [e.target.name]: e.target.value
         }));
-        console.log(errors)
-
     };
 
     //Para el select de los temperamentos
@@ -92,11 +97,6 @@ export default function FormPage(){
     //Para limpiar el input y cargar la info
     function handleSubmit(e){
         e.preventDefault();
-        
-        if(newDog.name==='') {
-            alert('There is incomplete data');
-            errors.name='No se completo este campo';
-        };
 
         if(!errors.name&&!errors.life_span&&!errors.weight_min&&!errors.weight_max&&!errors.height_max&&!errors.height_min&&!errors.temperament){
             dispatch(postDog(newDog));
@@ -116,9 +116,7 @@ export default function FormPage(){
     
             //Me redirige a home
             navigate('/home');
-
-        } 
-       
+        } else alert('Data is missing or incorrect!')
     }
 
     return(
@@ -152,7 +150,7 @@ export default function FormPage(){
                 <div className={styles.minmax}>
                     <div>
                         <label>Weight Min</label>
-                        <input type="number" value={newDog.weight_min} name='weight_min' autoComplete='off' placeholder="Weight min in cm..." onChange={(e)=>handleChange(e)}></input>-
+                        <input type="number" value={newDog.weight_min} name='weight_min' autoComplete='off' placeholder="Weight min in cm..." onChange={(e)=>handleChange(e)}></input>
                         {errors.weight_min && (
                         <span className="error">{errors.weight_min}</span>
                         )}  
@@ -171,7 +169,7 @@ export default function FormPage(){
                     <div className={styles.minmax}>
                     <div>
                         <label>Height Min</label>
-                        <input type="number" value={newDog.height_min} name='height_min' autoComplete='off' placeholder="Height min in cm..." onChange={(e)=>handleChange(e)}></input>-
+                        <input type="number" value={newDog.height_min} name='height_min' autoComplete='off' placeholder="Height min in cm..." onChange={(e)=>handleChange(e)}></input>
                         {errors.height_min && (
                             <span className="error">{errors.height_min}</span>
                         )}  
@@ -217,8 +215,8 @@ export default function FormPage(){
 }
 
 //Otra solucion para el submit boton es hacerlo desaparecer en el form:
-//{ newDog.name!==''? <button type="submit">Create Dog!</button> :
-//  <p/>
+//{ errors? <button type="submit">Create Dog!</button> :
+//  <div/>
 //}
 
 //Para cargar una imagen(tengo problemas con esto)
