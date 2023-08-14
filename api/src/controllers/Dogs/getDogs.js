@@ -9,7 +9,6 @@ const url='https://api.thedogapi.com/v1/breeds';
 const getDogsFromAPI=async()=>{
     
     const {data}=await axios.get(url);
-    console.log(data)
 
     //Extraigo solo la info que voy a utilizar
     const dogsAPI= data.map((el)=>{
