@@ -32,7 +32,7 @@ export default function AboutPage(){
                     <h2>Sobre mi:</h2>
                     <span>Paso mi tiempo libre leyendo, viendo anime o jugando en la grieta del invocador. Mi autor favorito es Brandon Sanderson!
                         <br/>
-                        Una de mis aspiraciones en este nuevo camino de programacion que he elegido es llegar a trabajar en un videojuego o en la empresa de RIOT para sacar skins legendarias a mis campeones favoritos (Tranquilo Malza, tu seras el primero).
+                        Una de mis aspiraciones es llegar a crear o trabajar en un videojuego, seria genial trabajar en la empresa de RIOT para sacar skins legendarias a mis campeones favoritos (Malzahar tu seras el primero).
                         <br/>
                         <p>{'{'}</p>
                     </span>
