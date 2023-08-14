@@ -9,6 +9,9 @@ import AboutPage from './views/about/about';
 import FormPage from './components/form/newDog';
 import HomePage from './components/home/home';
 
+import axios from 'axios';
+axios.defaults.baseURL='http://localhost:3001'
+
 function App() {
   return (
     <div className="App">

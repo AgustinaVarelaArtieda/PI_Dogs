@@ -14,7 +14,7 @@ html,body{
     align-items: center;
     justify-content: center;
 
-    background-color: rgb(249, 206, 78);
+    background-color: rgba(100, 100, 99, 0.385);
     background-image: url('../../images/bone.svg');
 
     overflow: hidden;
@@ -69,6 +69,6 @@ html,body{
     height: 6rem;
     border-radius: 50px;
     transition-duration: 0.3s;
-    background-color: rgba(58, 119, 218, 0.8);
+    background-color: rgba(218, 167, 58, 0.8);
     align-items: center;
   }
