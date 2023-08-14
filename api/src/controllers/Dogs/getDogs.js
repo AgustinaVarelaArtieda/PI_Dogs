@@ -4,7 +4,7 @@ const {Dog, Temperament}=require('../../db');
 
 const {APIKEY} = process.env;
 
-const url='https://api.thedogapi.com/v1/breeds?api_key='+APIKEY;
+const url='https://api.thedogapi.com/v1/breeds';
 
 const getDogsFromAPI=async()=>{
     const {data}=await axios.get(url);
