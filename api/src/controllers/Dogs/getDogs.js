@@ -7,14 +7,16 @@ const {APIKEY} = process.env;
 const url='https://api.thedogapi.com/v1/breeds';
 
 const getDogsFromAPI=async()=>{
+    
     const {data}=await axios.get(url);
+    console.log(data)
 
     //Extraigo solo la info que voy a utilizar
     const dogsAPI= data.map((el)=>{
         return {
             id:el.id,
             name:el.name,
-            image:el.image.url,
+            image:el.image ? el.image.url : null,
             temperament:el.temperament,
             life_span:el.life_span,
             weight_min:el.weight.metric.split(' - ')[0],    //La info está en la API como un string, por eso hago un split, para separar el min y max
