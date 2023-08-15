@@ -8,8 +8,9 @@ import style from './filters.module.css'
 export default function Filters ({reset}){
     const dispatch = useDispatch();
 
-    //const allDogs = useSelector((state)=>state.videogames);       //Trae todo lo que esta en el estado de videogames(ESTADO GLOBAL)
     const allTemperaments=useSelector((state)=>state.dogTemps)
+    const appliedFilters = useSelector((state) => state.appliedFilters);
+    const { origin, temperamento, nameSort, weight } = appliedFilters;
 
     //FILTROS
     const filterOrig=useRef();
@@ -26,8 +27,13 @@ export default function Filters ({reset}){
         
         dispatch(filterByTemp(e.target.value));
 
-        reset(e);
+        reset(e);   //vuelve a la pagina 1
     }
+
+    useEffect(() => {
+        // Establecer el valor predeterminado del filtro de temperamento
+        filterTemp.current.value = temperamento || "All";
+      }, [temperamento]);
 
     //Filtro por origen
     function handleFilterOrigin(e){
@@ -37,6 +43,11 @@ export default function Filters ({reset}){
         
         reset(e);
     }
+
+    useEffect(() => {
+        // Establecer el valor predeterminado del filtro de origen
+        filterOrig.current.value = origin || "All";
+      }, [origin]);
 
     //ORDENAMIENTO
     const orderName=useRef();
@@ -48,9 +59,12 @@ export default function Filters ({reset}){
         dispatch(orderByName(e.target.value));
 
         reset(e);
-
-        orderWeight.current.value='default';    //setea el orden por peso
     }
+
+    useEffect(() => {
+        // Establecer el valor predeterminado del ordenamiento por nombre
+        orderName.current.value = nameSort || "default";
+    }, [orderName])
 
     //Orden por peso
     function handleOrderByWeight(e){
@@ -58,9 +72,12 @@ export default function Filters ({reset}){
         dispatch(orderByWeight(e.target.value));
 
         reset(e);
-
-        orderName.current.value='default';    //setea el orden por nombre
     }
+
+    useEffect(() => {
+        // Establecer el valor predeterminado del ordenamiento por peso
+        orderWeight.current.value = weight || "default";
+    }, [orderWeight])
 
     //Reset Filters-sortings
     function handleReset(e){

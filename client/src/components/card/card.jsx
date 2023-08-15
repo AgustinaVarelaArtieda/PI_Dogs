@@ -3,13 +3,22 @@ import { NavLink } from 'react-router-dom';
 import style from './card.module.css';
 
 export default function Card({id, name, image, temperament, weight_min, weight_max}){
-    let temps=''
+    
+  //Para mostrar los temperamentos
+  let temps=''
     
     if(typeof temperament === 'string'){
         temps= temperament
     }
     if(Array.isArray(temperament)){
         temps=temperament.map(el=>el.name).join(', ')                                      
+    }
+
+    //Imagen para cuando no hay imagen
+    const imgDefault='https://thumbs.gfycat.com/DependableElementaryAquaticleech-size_restricted.gif'
+
+    if(image===''){
+        image=imgDefault
     }
 
     return(

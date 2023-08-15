@@ -21,6 +21,13 @@ export default function DetailPage(){
         dispatch(getDogDetails(id))
     },[id, dispatch]);
 
+    //Imagen para cuando no hay imagen
+    const imgDefault='https://thumbs.gfycat.com/DependableElementaryAquaticleech-size_restricted.gif'
+
+    if(detail.image===''){
+        detail.image=imgDefault
+    }
+
     //Para renderizar los temperamentos
     let temps='';
     
@@ -45,12 +52,16 @@ export default function DetailPage(){
     const [loading, setLoading] = useState(true);     //para controlar la LoadingPage
 
     useEffect(()=>{
-        const timer=setTimeout(()=>{        //temporizador para desactivar la loading
+
+        if(detail.length<0){
             setLoading(false)
-        },1200);
-        return ()=>{
-            clearTimeout(timer)
         }
+        // const timer=setTimeout(()=>{        //temporizador para desactivar la loading
+        //     setLoading(false)
+        // },1200);
+        // return ()=>{
+        //     clearTimeout(timer)
+        // }
     },[]);
     
     return(

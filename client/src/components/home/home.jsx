@@ -50,7 +50,6 @@ export default function HomePage(){
         if(allDogs.length<0){
             setLoading(false)
         }
-
         // const timer=setTimeout(()=>{        //temporizador para desactivar la loading
         //     setLoading(false)
         // },1700);

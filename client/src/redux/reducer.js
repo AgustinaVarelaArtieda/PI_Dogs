@@ -2,8 +2,9 @@ import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, FILTER_BY_TEMP, FILTER_ORIGIN, OR
 
 //Creo los estados globales
 const initialState={
-    dogs:[],
-    allDogs:[],     //me sirve de backup para los filtros y ordenamientos
+    allDogs:[],     
+    dogs:[],    //contiene los perros filtrados/ordenados
+    appliedFilters:[],  //registro de filtros u ordenamientos aplicados
     dogDetails:[],
     dogTemps:[],
 };
@@ -43,7 +44,7 @@ function rootReducer(state=initialState, action){
         case POST_DOG:
             return{
                 ...state,
-                dogs:action.payload //revisar esto
+                dogs:action.payload 
             };    
         
         //Para ordenar por nombre
@@ -64,6 +65,10 @@ function rootReducer(state=initialState, action){
             return{
                 ...state,
                 dogs:sortArr,
+                appliedFilters: {
+                    ...state.appliedFilters,
+                    nameSort: action.payload,
+                  },
             };
 
         //Para ordenar por peso
@@ -101,7 +106,11 @@ function rootReducer(state=initialState, action){
 
             return{
                 ...state,
-                dogs: weightOrder
+                dogs: weightOrder,
+                appliedFilters: {
+                    ...state.appliedFilters,
+                    weight: action.payload,
+                  },
             }
 
         //Para filtrar por origen
@@ -120,6 +129,10 @@ function rootReducer(state=initialState, action){
             return{
                 ...state,
                 dogs:originFilters,
+                appliedFilters: {
+                    ...state.appliedFilters,
+                    origin: action.payload,
+                  },
             };
         
         //Para filtrar por temperamentos
@@ -149,6 +162,10 @@ function rootReducer(state=initialState, action){
             return{
                 ...state,
                 dogs:tempFilters,
+                appliedFilters: {
+                    ...state.appliedFilters,
+                    temperamento: action.payload,
+                  },
             };
         
         default:
