@@ -47,12 +47,16 @@ export default function HomePage(){
     const [loading, setLoading] = useState(true);       //para controlar si se debe mostrar LoadingPage o las cartas
 
     useEffect(()=>{
-        const timer=setTimeout(()=>{        //temporizador para desactivar la loading
+        if(allDogs.length<0){
             setLoading(false)
-        },1700);
-        return ()=>{
-            clearTimeout(timer)
         }
+
+        // const timer=setTimeout(()=>{        //temporizador para desactivar la loading
+        //     setLoading(false)
+        // },1700);
+        // return ()=>{
+        //     clearTimeout(timer)
+        // }
     },[]);
 
     //Para volver a la pagina 1
