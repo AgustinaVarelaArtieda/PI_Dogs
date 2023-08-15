@@ -4,7 +4,7 @@ const {Temperament}=require('../../db');
 
 const {APIKEY} = process.env;
 
-const url='https://api.thedogapi.com/v1/breeds';
+const url='https://api.thedogapi.com/v1/breeds'+APIKEY;
 
 const getTemperaments=async()=>{
     

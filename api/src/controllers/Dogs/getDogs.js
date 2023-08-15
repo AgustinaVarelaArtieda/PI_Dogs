@@ -4,7 +4,7 @@ const {Dog, Temperament}=require('../../db');
 
 const {APIKEY} = process.env;
 
-const url='https://api.thedogapi.com/v1/breeds';
+const url='https://api.thedogapi.com/v1/breeds'+APIKEY;
 
 const getDogsFromAPI=async()=>{
     
@@ -15,7 +15,7 @@ const getDogsFromAPI=async()=>{
         return {
             id:el.id,
             name:el.name,
-            image:el.image ? el.image.url : null,
+            image:el.image?.url || `https://cdn2.thedogapi.com/images/${el.reference_image_id}.jpg`||'',
             temperament:el.temperament,
             life_span:el.life_span,
             weight_min:el.weight.metric.split(' - ')[0],    //La info está en la API como un string, por eso hago un split, para separar el min y max
