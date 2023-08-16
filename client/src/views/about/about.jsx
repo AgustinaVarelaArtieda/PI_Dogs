@@ -24,7 +24,9 @@ export default function AboutPage(){
                     </div>
                 </div>
                 <div className={style.info2}>
-                    <span>Hacer este proyecto de crear una pagina web fue un proceso con altibajos, pero al ver a mi peludo Milo todos los dias me recordaba que tenia que volver a la carga con la pagina.
+                    <span>Para esta página he utilizado las tecnologias JS, React, Express y Node.js, ademas de PostgreSQL para crear la base de datos.
+                        <br/>
+                        Hacer este proyecto de crear una pagina web fue un proceso con altibajos, pero al ver a mi peludo Milo todos los dias me recordaba que tenia que volver a la carga con la pagina.
                         <br/>
                         Al realizarla pude reafirmar y volcar lo aprendido en el curso de Henry, mejorar mis practicas de codeo y, especialmente, aprender a solucionar bugs! 
                     </span>
@@ -32,7 +34,7 @@ export default function AboutPage(){
                     <h2>Sobre mi:</h2>
                     <span>Paso mi tiempo libre leyendo, viendo anime o jugando en la grieta del invocador. Mi autor favorito es Brandon Sanderson!
                         <br/>
-                        Una de mis aspiraciones es llegar a crear o trabajar en un videojuego, seria genial trabajar en la empresa de RIOT para sacar skins legendarias a mis campeones favoritos (Malzahar tu seras el primero).
+                        Una de mis aspiraciones es llegar a crear o trabajar en un videojuego, seria genial trabajar en la empresa de RIOT.
                         <br/>
                         <p>{'{'}</p>
                     </span>
