@@ -52,16 +52,12 @@ export default function DetailPage(){
     const [loading, setLoading] = useState(true);     //para controlar la LoadingPage
 
     useEffect(()=>{
-
-        if(detail.length<0){
+        const timer=setTimeout(()=>{        //temporizador para desactivar la loading
             setLoading(false)
+        },1200);
+        return ()=>{
+            clearTimeout(timer)
         }
-        // const timer=setTimeout(()=>{        //temporizador para desactivar la loading
-        //     setLoading(false)
-        // },1200);
-        // return ()=>{
-        //     clearTimeout(timer)
-        // }
     },[]);
     
     return(
