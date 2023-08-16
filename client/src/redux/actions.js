@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, FILTER_BY_TEMP, FILTER_ORIGIN, ORDER_BY_NAME, ORDER_BY_WEIGHT, SEARCH_DOG_NAME } from './typeActions';
+import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, APPLY_FILTERS_AND_ORDER, SEARCH_DOG_NAME } from './typeActions';
 
 //Para traer todos los dogs desde el back
 export function getDogs(){
@@ -63,34 +63,10 @@ export function postDog(dog){
     };
 };
 
-//Para filtrar por temperamentos
-export function filterByTemp(temp){
+//Para los filtros y ordenamientos
+export function filterAndOrder(filtersAndOrder){
     return {
-        type:FILTER_BY_TEMP,
-        payload:temp
-    };
-};
-
-//Para filtrar por origen
-export function filterOrigin(origin){
-    return {
-        type:FILTER_ORIGIN,
-        payload:origin
-    };
-};
-
-//Para ordenar por nombre
-export function orderByName(order){
-    return {
-        type:ORDER_BY_NAME,
-        payload:order
-    };
-};
-
-//Para ordenar por peso
-export function orderByWeight(order){
-    return {
-        type:ORDER_BY_WEIGHT,
-        payload:order
+        type:APPLY_FILTERS_AND_ORDER,
+        payload:filtersAndOrder
     };
 };

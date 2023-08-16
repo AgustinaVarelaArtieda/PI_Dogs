@@ -6,10 +6,6 @@ export const POST_DOG = 'POST_DOG';
 
 export const SEARCH_DOG_NAME = 'SEARCH_DOG_NAME';
 
-export const FILTER_BY_TEMP='FILTER_BY_TEMP';
-export const FILTER_ORIGIN='FILTER_ORIGIN';
-
-export const ORDER_BY_NAME='ORDER_BY_NAME';
-export const ORDER_BY_WEIGHT='ORDER_BY_WEIGHT';
+export const APPLY_FILTERS_AND_ORDER='APPLY_FILTERS_AND_ORDER';
 
 export const GET_TEMPS = 'GET_TEMPS';

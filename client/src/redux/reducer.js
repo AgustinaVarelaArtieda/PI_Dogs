@@ -1,10 +1,9 @@
-import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, FILTER_BY_TEMP, FILTER_ORIGIN, ORDER_BY_NAME, ORDER_BY_WEIGHT, SEARCH_DOG_NAME, POST_DOG } from './typeActions';
+import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, APPLY_FILTERS_AND_ORDER, SEARCH_DOG_NAME, POST_DOG } from './typeActions';
 
 //Creo los estados globales
 const initialState={
     allDogs:[],     
     dogs:[],    //contiene los perros filtrados/ordenados
-    appliedFilters:[],  //registro de filtros u ordenamientos aplicados
     dogDetails:[],
     dogTemps:[],
 };
@@ -47,125 +46,79 @@ function rootReducer(state=initialState, action){
                 dogs:action.payload 
             };    
         
-        //Para ordenar por nombre
-        case ORDER_BY_NAME:
-            let sortArr= [...state.dogs]; 
-            let newSort=action.payload;
+         //Para aplicar los filtros y ordenamientos
+         case APPLY_FILTERS_AND_ORDER:
+            const { temperament, origin, orderByName, orderByWeight } = action.payload;
+            let filteredAndOrderedDogs = [...state.allDogs];    
+            //Para aplicar tambien a los perrros buscados por la search se debe cambiar al estado dogs, 
+            //pero necesitaria encontrar una forma de renderizar que los filtros solo se estan aplicando a los resultados de la busqueda
 
-            sortArr.sort(function(a,b){
-                if (a.name.toLowerCase() > b.name.toLowerCase()){
-                    return newSort === 'asc' ? 1 : -1;
+            //Aplicacion de filtros
+                //Para filtrar por origen
+                if(origin==='DB'){
+                    //Los dogs en la DB tienen un id de tipo UUID, por lo que no son numericos
+                    filteredAndOrderedDogs=filteredAndOrderedDogs.filter((dog)=>isNaN(dog.id))
+                }else if(origin==='API'){
+                    //Los dogs de la API tienen un id numericos
+                    filteredAndOrderedDogs=filteredAndOrderedDogs.filter((dog)=>!isNaN(dog.id))
                 }
-                if (a.name.toLowerCase() < b.name.toLowerCase()){
-                    return newSort === 'asc' ? -1 : 1; 
+
+                //Para filtrar por temperamentos
+                if (temperament !== 'All') {
+                    filteredAndOrderedDogs = filteredAndOrderedDogs.filter(dog => {
+                      //Para los perros de la API
+                      if (dog.temperament) {
+                        //Dividimos la cadena de temperamentos y eliminamos los espacios en blanco
+                        const temperaments = dog.temperament.split(',').map(t => t.trim());
+                        // verificamos si el temperamento del perro coincide exactamente con el valor del payload
+                        return temperaments.includes(temperament);
+                      }
+                      //Para los perros de la base de datos
+                      if (dog.temperaments) {
+                        //Usamos el método some() para verificar si al menos uno de los objetos en dog.temperaments tiene un nombre que coincide con filters.temperament
+                        return dog.temperaments.some(temp => temp.name === temperament);
+                      }
+                      return false;
+                    });
                 }
-                return 0
-            })
 
-            return{
-                ...state,
-                dogs:sortArr,
-                appliedFilters: {
-                    ...state.appliedFilters,
-                    nameSort: action.payload,
-                  },
-            };
+            //Aplicacion de ordenamientos
+            if (orderByName === 'nameAsc') {
+                filteredAndOrderedDogs.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+              } else if (orderByName === 'nameDesc') {
+                filteredAndOrderedDogs.sort((a, b) => b.name.toLowerCase().localeCompare(a.name.toLowerCase()));
+              } else if (orderByWeight === 'weightAsc' || orderByWeight === 'weightDesc') {
+                filteredAndOrderedDogs.sort(function(a, b) {
+                    // Primero ordenamos por peso mínimo, si los pesos mínimos no son iguales, los vamos ordenando
+                  
+                    const weightA = Number(a.weight_min) || 0;
+                    const weightB = Number(b.weight_min) || 0;
 
-        //Para ordenar por peso
-        case ORDER_BY_WEIGHT:
-            let weightOrder=[...state.dogs];
-            let sortWeight=action.payload
+                  if (weightA !== weightB) {
+                    if (orderByWeight === 'weightDesc') {
+                      return weightB - weightA;
+                    } else if (orderByWeight === 'weightAsc') {
+                      return weightA - weightB;
+                    }
+                  } else {
+                    // Si los pesos mínimos son iguales, recurrimos a ordenarlos por el peso máximo
+                    const maxWeightA = Number(a.weight_max) || 0;
+                    const maxWeightB = Number(b.weight_max) || 0;
 
-            weightOrder.sort(function(a, b) {
-                const weightA = Number(a.weight_min) || 0;
-                const weightB = Number(b.weight_min) || 0;
-                
-                //Primero ordenamos por peso minimo, si los pesos min no son iguales los voy ordenando
-                if (weightA !== weightB) {
-                  if (sortWeight === "desc") {
-                    return weightB - weightA;
-                  } else if (sortWeight === "asc") {
-                    return weightA - weightB;
-                  }
-                } else {
-                //Si los pesos minimos son iguales recurro a ordenarlos por el peso maximo
-                  const maxWeightA = Number(a.weight_max)|| 0;
-                  const maxWeightB = Number(b.weight_max)|| 0;
-            
-                  if (maxWeightA !== maxWeightB) {
-                    if (sortWeight === "desc") {
-                      return maxWeightB - maxWeightA;
-                    } else if (sortWeight === "asc") {
-                      return maxWeightA - maxWeightB;
+                    if (maxWeightA !== maxWeightB) {
+                      if (orderByWeight === 'weightDesc') {
+                        return maxWeightB - maxWeightA;
+                      } else if (orderByWeight === 'weightAsc') {
+                        return maxWeightA - maxWeightB;
+                      }
                     }
                   }
-                }
-            
-                return 0;
-            });
-
-            return{
-                ...state,
-                dogs: weightOrder,
-                appliedFilters: {
-                    ...state.appliedFilters,
-                    weight: action.payload,
-                  },
-            }
-
-        //Para filtrar por origen
-        case FILTER_ORIGIN:
-            let originFilters=[...state.dogs];
-    
-            if(action.payload==='All'){
-                originFilters=[...state.allDogs]
-            }else if(action.payload==='DB'){
-                //Los dogs en la DB tienen un id de tipo UUID, por lo que no son numericos
-                originFilters=state.allDogs.filter((dog)=>isNaN(dog.id))
-            }else if(action.payload==='API'){
-                //Los dogs de la API tienen un id numericos
-                originFilters=state.allDogs.filter((dog)=>!isNaN(dog.id))
-            };
-            return{
-                ...state,
-                dogs:originFilters,
-                appliedFilters: {
-                    ...state.appliedFilters,
-                    origin: action.payload,
-                  },
-            };
-        
-        //Para filtrar por temperamentos
-        case FILTER_BY_TEMP:
-            let tempFilters=[...state.dogs];
-
-            if(action.payload==='All'){
-                tempFilters=[...state.allDogs]
-            } else{
-                tempFilters = state.allDogs.filter((dog) => {
-                    //Para los perros de la API
-                    if(dog.temperament){
-                        //Dividimos la cadena de temperamentos y eliminamos los espacios en blanco
-                        const temperaments = dog.temperament.split(',').map((t) => t.trim());
-                        // verificamos si el temperamento del perro coincide exactamente con el valor del payload
-                        return temperaments.includes(action.payload);
-                    };
-
-                    //Para los perros de la base de datos
-                    if(dog.temperaments){
-                        //Usamos el método some() para verificar si al menos uno de los objetos en dog.temperaments tiene un nombre que coincide con action.payload.
-                        return dog.temperaments.some((temp) => temp.name === action.payload);
-                    };
-                    return false
+                  return 0;
                 });
             }
             return{
                 ...state,
-                dogs:tempFilters,
-                appliedFilters: {
-                    ...state.appliedFilters,
-                    temperamento: action.payload,
-                  },
+                dogs: filteredAndOrderedDogs,
             };
         
         default:

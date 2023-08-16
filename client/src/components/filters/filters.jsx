@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getDogs, getTemps, filterByTemp, filterOrigin, orderByName, orderByWeight } from "../../redux/actions";
+import { getDogs, getTemps, filterAndOrder } from "../../redux/actions";
 
 import style from './filters.module.css'
 
@@ -9,75 +9,49 @@ export default function Filters ({reset}){
     const dispatch = useDispatch();
 
     const allTemperaments=useSelector((state)=>state.dogTemps)
-    const appliedFilters = useSelector((state) => state.appliedFilters);
-    const { origin, temperamento, nameSort, weight } = appliedFilters;
 
-    //FILTROS
-    const filterOrig=useRef();
-    const filterTemp=useRef();
+    const filterOrig = useRef(null);
+    const filterTemp = useRef(null);
+    const orderName = useRef(null);
+    const orderWeight = useRef(null);
 
-    //Filtro por temperamentos
-        //para renderizar los temperamentos
+    //para renderizar los temperamentos
     useEffect(()=>{
         dispatch(getTemps());
     },[dispatch]);
 
-    function handleFilterTemp(e){
+    //Para aplicar los filtros y ordenamientos
+    //tengo un problema con los ordenamientos, cuando cambio a peso o nombre funciona sin problemas, 
+    //pero al cambiar de nombre a peso se debe seleccionar la opcion dos veces, porque la primera vez no aplica el ordenamiento
+
+    function handleFilterAndOrder(e) {
         e.preventDefault();
-        
-        dispatch(filterByTemp(e.target.value));
+        const origin = filterOrig.current.value;
+        const temperament = filterTemp.current.value;
+        let orderByName = orderName.current.value;
+        let orderByWeight = orderWeight.current.value;
+    
+        //Cambio el valor del select y del order al default
+        if(orderByName!=='Default'){
+            orderWeight.current.value = "Default";
+            orderByName = orderName.current.value;
+        }
+        if(orderByWeight!=='Default'){
+            orderName.current.value = "Default";
+            orderByWeight = orderWeight.current.value;
+        }
 
-        reset(e);   //vuelve a la pagina 1
-    }
+        const filtersAndOrder = {
+          origin,
+          temperament,
+          orderByName,
+          orderByWeight
+        };
 
-    useEffect(() => {
-        // Establecer el valor predeterminado del filtro de temperamento
-        filterTemp.current.value = temperamento || "All";
-      }, [temperamento]);
+        dispatch(filterAndOrder(filtersAndOrder));
 
-    //Filtro por origen
-    function handleFilterOrigin(e){
-        e.preventDefault()
-
-        dispatch(filterOrigin(e.target.value))
-        
-        reset(e);
-    }
-
-    useEffect(() => {
-        // Establecer el valor predeterminado del filtro de origen
-        filterOrig.current.value = origin || "All";
-      }, [origin]);
-
-    //ORDENAMIENTO
-    const orderName=useRef();
-    const orderWeight=useRef();
-
-    //Orden alfabético
-    function handleOrderByName(e){
-        e.preventDefault();
-        dispatch(orderByName(e.target.value));
-
-        reset(e);
-    }
-
-    useEffect(() => {
-        // Establecer el valor predeterminado del ordenamiento por nombre
-        orderName.current.value = nameSort || "default";
-    }, [orderName])
-
-    //Orden por peso
-    function handleOrderByWeight(e){
-        e.preventDefault();
-        dispatch(orderByWeight(e.target.value));
-
-        reset(e);
-    }
-
-    useEffect(() => {
-        // Establecer el valor predeterminado del ordenamiento por peso
-        orderWeight.current.value = weight || "default";
-    }, [orderWeight])
+        reset(e)
+      }
 
     //Reset Filters-sortings
     function handleReset(e){
@@ -85,13 +59,14 @@ export default function Filters ({reset}){
         //Recargar/traer todos los perros
         dispatch(getDogs());
 
+        //setea la paginacion a la primera pagina
         reset(e);
 
         //Establecer los valores de los filtros y ordenamientos a los predeterminados
-        filterOrig.current.value='default';
-        filterTemp.current.value='default';
-        orderName.current.value='All';
-        orderWeight.current.value='All';
+        filterOrig.current.value='All';
+        filterTemp.current.value='All';
+        orderName.current.value='Default';
+        orderWeight.current.value='Default';
     }
 
     return(
@@ -103,24 +78,24 @@ export default function Filters ({reset}){
             {/*Esto de abajo son los ordenamientos*/}
             {/*Orden alfabetico*/}
             <h5>Alphabetical<br/>order</h5>
-            <select onChange={(e)=>handleOrderByName(e)} ref={orderName} defaultValue='default'>
-                <option value='default' disabled> - </option>
-                <option value='asc'>A - Z</option>
-                <option value='desc'>Z - A</option>
+            <select onChange={(e)=>handleFilterAndOrder(e)} ref={orderName} defaultValue='Default'>
+                <option value='Default' disabled> - </option>
+                <option value='nameAsc'>A - Z</option>
+                <option value='nameDesc'>Z - A</option>
             </select>
                 
             {/*Orden por peso*/}
             <h5>Order by weight</h5>
-            <select onChange={(e)=>handleOrderByWeight(e)} ref={orderWeight} defaultValue='default'>
-                <option value='default' disabled> - </option>
-                <option value='asc'>Lower weight</option>
-                <option value='desc'>Greater weight</option>
+            <select onChange={(e)=>handleFilterAndOrder(e)} ref={orderWeight} defaultValue='Default'>
+                <option value='Default' disabled> - </option>
+                <option value='weightAsc'>Lower weight</option>
+                <option value='weightDesc'>Greater weight</option>
             </select>
 
             {/*Esto de abajo son los filtros*/}
             {/*Filtro por temperamento*/}
             <h5>Temperaments</h5>
-            <select onChange={e=>handleFilterTemp(e)} ref={filterTemp} defaultValue='All'>
+            <select onChange={e=>handleFilterAndOrder(e)} ref={filterTemp} defaultValue='All'>
                 <option value='All'>All temperaments</option>
                 {allTemperaments?.map((temp)=>(
                         <option value={temp} key={temp}>{temp}</option>
@@ -128,7 +103,7 @@ export default function Filters ({reset}){
             </select>
             {/*Filtro por origen*/}
             <h5>Origen</h5>
-            <select onChange={e=>handleFilterOrigin(e)} ref={filterOrig} defaultValue='All'>
+            <select onChange={e=>handleFilterAndOrder(e)} ref={filterOrig} defaultValue='All'>
                 <option value='All'>All dogs</option>
                 <option value='API'>Existing dogs</option>
                 <option value='DB'>Dogs created</option>
