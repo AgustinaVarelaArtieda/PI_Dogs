@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, APPLY_FILTERS_AND_ORDER, SEARCH_DOG_NAME } from './typeActions';
+import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, CLEAR_DOG_DETAILS, APPLY_FILTERS_AND_ORDER, SEARCH_DOG_NAME } from './typeActions';
 
 //Para traer todos los dogs desde el back
 export function getDogs(){
@@ -28,6 +28,13 @@ export function getDogDetails(id){
         };
     };
 };
+
+//Para limpiar los detalles del perro
+export function clearDogDetails(){
+    return {
+        type:CLEAR_DOG_DETAILS
+    };
+}
 
 //Para buscar un dog por nombre
 export function searchDogName(name){

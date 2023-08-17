@@ -48,12 +48,7 @@ export default function HomePage(){
 
     useEffect(()=>{
         if(currentDogs && currentDogs.length>0){    //verifico que los perros se carguen
-            const timer=setTimeout(()=>{        //temporizador para desactivar la loading
-                setLoading(false)
-            },1700);
-            return ()=>{
-                clearTimeout(timer)
-            }
+            setLoading(false)
         }
     },[currentDogs]);
 

@@ -1,4 +1,4 @@
-import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, APPLY_FILTERS_AND_ORDER, SEARCH_DOG_NAME, POST_DOG } from './typeActions';
+import { GET_TEMPS, GET_DOGS, GET_DOG_DETAILS, CLEAR_DOG_DETAILS, APPLY_FILTERS_AND_ORDER, SEARCH_DOG_NAME, POST_DOG } from './typeActions';
 
 //Creo los estados globales
 const initialState={
@@ -24,6 +24,13 @@ function rootReducer(state=initialState, action){
                 ...state,
                 dogDetails:action.payload
             };
+
+        //Para limpiar los detalles del perro
+        case CLEAR_DOG_DETAILS:
+            return {
+                ...state,
+                dogDetails:[]
+            }
         
         //Para buscar un dog por nombre
         case SEARCH_DOG_NAME:

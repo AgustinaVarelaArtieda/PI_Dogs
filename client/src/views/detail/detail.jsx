@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 
-import { getDogDetails } from '../../redux/actions'
+import { getDogDetails, clearDogDetails } from '../../redux/actions'
 import NavBar from '../../components/navBar/navBar'
 import LoadingPage from '../loading/loading'
 
@@ -18,7 +18,13 @@ export default function DetailPage(){
     const detail=useSelector((state)=>state.dogDetails)
 
     useEffect(()=>{
-        dispatch(getDogDetails(id))
+        dispatch(getDogDetails(id));
+
+        return()=>{
+            // Limpiar el estado dogDetails cuando el componente se desmonte
+            dispatch(clearDogDetails());
+        };
+
     },[id, dispatch]);
 
     //Imagen para cuando no hay imagen

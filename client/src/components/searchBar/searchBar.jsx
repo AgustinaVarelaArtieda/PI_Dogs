@@ -27,9 +27,15 @@ export default function SearchBar(){
         setName('')
     }
 
+    function handleKey(e){
+        if(e.key==='Enter'){
+            handleSubmit(e)
+        }
+    }
+
     return(
         <div className={style.group}>
-            <input type="text" placeholder='Search...' value={name} onChange={(e)=>handleInputChange(e)}></input>
+            <input type="text" placeholder='Search...' value={name} onKeyDown={(e)=>handleKey(e)} onChange={(e)=>handleInputChange(e)}></input>
             <button className={style.btnS} type='submit' onClick={(e)=>handleSubmit(e)}>🔍︎</button>
         </div>
     )
